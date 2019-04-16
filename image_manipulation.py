@@ -1,6 +1,8 @@
 '''
 Author: Conor Green
-Description:
+Description: Provides functionality for renaming; filtering by hue,
+saturation, and value; and cropping
+Usage: Call functions through other script
 Version:
 1.0 - April 7 2019 - Basic functionality to learn libraries
 1.1 - April 8 2019 - Added better code structure
@@ -8,6 +10,7 @@ Version:
 1.3 - April 8 2019 - Added daylight or not classification
 1.4 - April 8 2019 - Added slideshow functionality
 1.5 - April 8 2019 - Fixed bugs, tuned daylight, better coding style
+1.6 - April 15 2019 - Fixed how the program renames files
 '''
 ##colorizer.org
 
@@ -18,21 +21,33 @@ import os
 import time
 
 def rename_all_(path):
-    i = 0
+    i = highest_num_image(new_path) + 1
+
     for filename in os.listdir(path):
-        filename = os.listdir(path)[i]
         old_file = os.path.join(path,filename)
         new_file = os.path.join(path, "image" + str(i) + ".jpg")
         os.rename(old_file , new_file)
     return
 
 def rename_this_many_(path , new_path , count):
-    for i in range(0, count):
+    start_pt = highest_num_image(new_path) + 1
+
+    for i in range(start_pt, start_pt + count):
         filename = os.listdir(path)[i]
         old_file = os.path.join(path,filename)
         new_file = os.path.join(new_path, "image" + str(i) + ".jpg")
         os.rename(old_file , new_file)
     return
+
+def highest_num_image(path):
+    highest = 0
+    for filename in os.listdir(path):
+        radix = filename.find(".")
+        temp = filename[5:radix]
+        if int(temp) > highest:
+            highest = int(temp)
+
+    return highest
 
 def get_avg_val(hsv_image):
     sum = 0
@@ -79,7 +94,7 @@ def get_mask(im_class , im_hsv ):
     #elif im_class == "not daylight":
     return cv2.inRange(im_hsv,(0,0,100),(255,150,230))
 
-def clean_noise_(image, (kernel_h , kernel_w) ):
+def clean_noise(image, (kernel_h , kernel_w) ):
     kernel = np.ones(( kernel_h , kernel_w ));
 
     image = cv2.erode(image, kernel , iterations=1)
@@ -91,12 +106,24 @@ def clean_noise_(image, (kernel_h , kernel_w) ):
 '''
     Set h = 640 and w = 380
 '''
-def resize_(image , desired_h , desired_w ):
-    im_h , im_w , im_d = image.shape()
+def resize(image , desired_h , desired_w ):
+    im_h , im_w , im_d = image.shape
 
     image = cv2.resize(image, () , interpolation = cv2.INTER_AREA)
 
     return
+
+def crop(image,  w_factor , h_factor):
+    im_h , im_w , im_d = image.shape
+    new_w = int(im_w*w_factor)
+    new_h = int(im_h*h_factor)
+    h1 =int( (im_h/2) - new_h )
+    h2 =int( (im_h/2)+ new_h )
+
+
+    crop_im = image[h1:h2 -500 , 0:new_w , :]
+
+    return ( image , crop_im )
 
 
 def process_image(image_path , verbose):
@@ -113,9 +140,9 @@ def process_image(image_path , verbose):
 
     im = cv2.bitwise_and(orig_image,orig_image,mask = mask)
 
-    kernel_dim = ( 100 , 100 )
+    kernel_dim = ( 20 , 20 )
 
-    filter = clean_noise_(im , kernel_dim)
+    filter = clean_noise(im , kernel_dim)
 
     filter[filter>0] = 1
 
@@ -132,13 +159,15 @@ def slideshow_images(path , number , pause_length , verbose):
 
         (orig_image, proc_image) = process_image(image_path , verbose = verbose)
 
+        (orig_image , cropped_image ) = crop(proc_image, 1 , .5)
+
         plt.figure()
 
         plt.subplot(2,1,1)
         plt.imshow(orig_image)
 
         plt.subplot(2,1,2)
-        plt.imshow(proc_image)
+        plt.imshow(cropped_image)
 
         plt.show(block=False)
 
@@ -148,16 +177,17 @@ def slideshow_images(path , number , pause_length , verbose):
 
     return
 
-def main():
+def rename_crop_slideshow():
     additional_path ="bdd100k/images/10k/test"
     current_directory = ""
     data_path = additional_path + current_directory
 
-    new_path = "bdd100k/images/10k/renamed_images"
-    #"~/Documents/University/Junior Year/Pothole Detection/bdd100k/images/10k/test"
+    new_path = "renamed_images"
+    #"~/Documents/University/Junior Year/Second Semester/Pothole Detection/bdd100k/images/10k/test"
 
     count = 20
     verbose = True
+
 
     rename_this_many_(data_path , new_path , count)
 
@@ -166,8 +196,13 @@ def main():
     '''
     Crop image into small rectangle
     cv2.resize()
-    '''
 
+    see also: cv2.GaussianBlur()
+    '''
+    return
+
+def main():
+    rename_crop_slideshow()
     return
 
 if __name__ == "__main__":
