@@ -20,13 +20,14 @@ import numpy as np
 import os
 import time
 
-def rename_all_(path):
+def rename_all_(path , new_path):
     i = highest_num_image(new_path) + 1
 
     for filename in os.listdir(path):
         old_file = os.path.join(path,filename)
-        new_file = os.path.join(path, "image" + str(i) + ".jpg")
+        new_file = os.path.join(new_path, "image" + str(i) + ".jpg")
         os.rename(old_file , new_file)
+        i +=1
     return
 
 def rename_this_many_(path , new_path , count):
@@ -113,18 +114,12 @@ def resize(image , desired_h , desired_w ):
 
     return
 
-def crop(image,  w_factor , h_factor):
+def crop(image, xl,xh,yl,yh):
     im_h , im_w , im_d = image.shape
-    new_w = int(im_w*w_factor)
-    new_h = int(im_h*h_factor)
-    h1 =int( (im_h/2) - new_h )
-    h2 =int( (im_h/2)+ new_h )
 
-
-    crop_im = image[h1:h2 -500 , 0:new_w , :]
+    crop_im = image[xl:xh, yl:yh , :]
 
     return ( image , crop_im )
-
 
 def process_image(image_path , verbose):
     im = cv2.imread(image_path)
@@ -159,7 +154,13 @@ def slideshow_images(path , number , pause_length , verbose):
 
         (orig_image, proc_image) = process_image(image_path , verbose = verbose)
 
-        (orig_image , cropped_image ) = crop(proc_image, 1 , .5)
+        # temp
+        x_low = 0
+        x_high = 500
+        y_low = 50
+        y_high = 400
+
+        (orig_image , cropped_image ) = crop(proc_image,x_low,x_high,y_low,y_high)
 
         plt.figure()
 
