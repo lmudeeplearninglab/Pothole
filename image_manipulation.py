@@ -19,6 +19,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 import time
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LinearRegression
 
 def rename_all_(path , new_path):
     i = highest_num_image(new_path) + 1
@@ -200,6 +203,18 @@ def rename_crop_slideshow():
 
     see also: cv2.GaussianBlur()
     '''
+    return
+
+def normalization():
+    min_max = MinMaxScaler()
+    data_min_max = min_max.fit_transform(data)
+    # MinMaxScaler needs (min, max) to normalize values
+    for x in data_min_max[0]:
+        print[x]
+        avg_norm = avg_norm + x
+        # shows distributed values from MinMaxScaler 
+    avg_norm = round( avg_norm / len(data_min_max.length) )
+    # gets average number 
     return
 
 def main():
