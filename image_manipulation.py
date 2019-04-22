@@ -11,6 +11,7 @@ Version:
 1.4 - April 8 2019 - Added slideshow functionality
 1.5 - April 8 2019 - Fixed bugs, tuned daylight, better coding style
 1.6 - April 15 2019 - Fixed how the program renames files
+1.7 - April 21, 2019 - Added normalization function and sklearn imports 
 '''
 ##colorizer.org
 
