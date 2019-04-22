@@ -1,4 +1,5 @@
 #Cropping
+#crop an image from x=0,y=0 position to h=100,w=200
 import numpy as np
 import cv2
 
