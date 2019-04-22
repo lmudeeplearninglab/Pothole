@@ -1,0 +1,26 @@
+#Cropping
+import numpy as np
+import cv2
+
+image = cv2.imread('image.jpg')
+y=0
+x=0
+h=100
+w=200
+crop = image[y:y+h, x:x+w]
+cv2.imshow('Cropped_Image', crop)
+cv2.waitKey(0) 
+
+
+#Resizing using Pillow package
+#resize_contain resize the image so that it can fit in the specified area
+#keeping the ratio and without crop (same behavior as background-size: contain).
+
+from PIL import Image
+from resizeimage import resizeimage
+
+fd_img = open('Cropped_Image.jpeg', 'r')
+img = Image.open(fd_img)
+img = resizeimage.resize_contain(img, [200, 100])
+img.save('New_image.jpeg', img.format)
+fd_img.close()
