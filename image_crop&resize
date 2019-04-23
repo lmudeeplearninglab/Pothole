@@ -14,6 +14,7 @@ def cropresizeimage(image, list):
   
 #Resizing
 #INTER_CUBIC - a bicubic interpolation over 4x4 pixel neighborhood
-
+  
+  dim = (w,h)
   new_image = cv2.resize(crop, dim, interpolation =cv2.INTER_CUBIC)
   return new_image
