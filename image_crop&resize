@@ -1,19 +1,19 @@
 #Cropping
 #crop an image from x=0,y=0 position to h=100,w=200
+
 import numpy as np
 import cv2
-
-image = cv2.imread('image.jpg')
-y=0
-x=0
-h=100
-w=200
-crop = image[y:y+h, x:x+w]
-cv2.imshow('Cropped_Image', crop)
-cv2.waitKey(0) 
-
-
+def cropimage(image, list):
+  x1 = list[0]
+  y1 = list[1]
+  x2 = list[2]
+  y2 = list[3]
+  w = list[4]
+  h = list[5]
+  crop = image[y1:y2, x1:x2]
+  
 #Resizing
 #INTER_CUBIC - a bicubic interpolation over 4x4 pixel neighborhood
 
-cv2.resize(Cropped_Image,dsize[, dst[, fx[, fy[, INTER_CUBIC]]]])
+  new_image = cv2.resize(crop,dsize[, dst[, fx[, fy[, interpolation =cv2.INTER_CUBIC]]]])
+  return new_image
