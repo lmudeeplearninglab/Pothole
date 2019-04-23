@@ -3,7 +3,7 @@
 
 import numpy as np
 import cv2
-def cropimage(image, list):
+def cropresizeimage(image, list):
   x1 = list[0]
   y1 = list[1]
   x2 = list[2]
