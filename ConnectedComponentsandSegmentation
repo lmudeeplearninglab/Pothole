@@ -1,0 +1,49 @@
+#Connected Components
+
+import cv2
+src = cv2.imread('/directorypath/image.bmp')
+ret, thresh = cv2.threshold(src,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
+connectivity = 4
+output = cv2.connectedComponentsWithStats(thresh, connectivitiy, cv2.CV_32S)
+num_labels = output [0]
+labels = output[1]
+stats = output [2]
+centroids = output [3]
+cv2.CC_STAT_LEFT = output [4]
+cv2.CC_STAT_TOP = output [5]
+cv2.CC_STAT_WIDTH = output [6]
+cv2.CC_STAT_HEIGHT = output [7]
+cv2.CC_STAT_AREA = output [8]
+
+#Source:https://stackoverflow.com/questions/35854197/how-to-use-opencvs-connected-components-with-stats-in-python
+
+#SegmentationWatershed
+import numpy as np
+import cv2
+from matplotlib import pyplot as plt
+
+img = cv2.imread('coins.png')
+gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+ret, thresh = cv2.threshold(gray,0,255,cv2.THRESH_BINARY_INV+cv2.THRESH)_OTSU)
+
+kernel = np.ones((3,3),np.uint8)
+opening = cv2.morpohologyEx(thresh,cv2.MORPH_OPEN,kernel,iterations = 2)
+
+sure_bg = cv2.dilate(opening,kernel,iterations=3)
+
+dist_transform = cv2.distanceTransform(opening,cv2.DIST_L2,5)
+ret, sure_fg cv2.threshold(dist_transform,0.7*dist_transform.max(),255,0)
+
+sure_fg = np.uint8(sure_fg)
+unknown = cv2.subtract(sure_bg,sure_fg)
+
+ret. markers = cv2.connectedComponents(sure_fg)
+
+markers = markers+1
+
+markers[unknown==22] = 0 
+
+markers = cv2.watershed(img,markers)
+img[markers == -1] = [255,0,0]
+
+#Source:https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_watershed/py_watershed.html
