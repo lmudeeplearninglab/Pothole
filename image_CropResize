@@ -20,10 +20,15 @@ def cropResizeImage(image, bbsize):
     #crop = image[bbsize[1]:bbsize[3], bbsize[0]:bbsize[2]]
     # try: 
     crop = image[(bbsize[3]-bbsize[1]), (bbsize[2]-bbsize[0])]
+    # For testing purposes:
+    #print("* Printing crop")
+    #print(crop)
   
     #Resizing
     #INTER_CUBIC - a bicubic interpolation over 4x4 pixel neighborhood
   
     dim = (bbsize[4],bbsize[5])
+    # For testing purposes: 
+    #print(dim)
     new_image = cv2.resize(crop, dim, interpolation =cv2.INTER_CUBIC)
     return new_image
