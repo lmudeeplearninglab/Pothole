@@ -16,10 +16,7 @@ def cropResizeImage(image, bbsize):
     #y2 = bbsize[3]
     #w = list[4]
     #h = list[5]
-    # Line commented because syntax throws error
-    #crop = image[bbsize[1]:bbsize[3], bbsize[0]:bbsize[2]]
-    # try: 
-    crop = image[(bbsize[3]-bbsize[1]), (bbsize[2]-bbsize[0])]
+    crop = image[bbsize[0]:bbsize[1], bbsize[2]:bbsize[3]]
     # For testing purposes:
     #print("* Printing crop")
     #print(crop)
