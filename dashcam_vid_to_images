@@ -3,7 +3,7 @@ import cv2
 import os 
   
 def convert_avi_to_mp4(avi_file_path, output_name):
-    os.popen(" ".format(input = avi_file_path, output = output_name))
+    os.popen("command[, mode[, bufsize]]".format(input = avi_file_path, output = output_name))
     return True 
 
 # Read the video from specified path 
