@@ -1,42 +1,16 @@
-# Importing all necessary libraries 
-import cv2 
-import os 
-  
-def convert_avi_to_mp4(avi_file_path, output_name):
-    os.popen("command[, mode[, bufsize]]".format(input = avi_file_path, output = output_name))
-    return True 
-
-# Read the video from specified path 
-cam = cv2.VideoCapture("output_name.mp4") 
-  
-try: 
-      
-    # creating a folder named data 
-    if not os.path.exists('data'): 
-        os.makedirs('data') 
-  
-# if not created then raise error 
-except OSError: 
-    print ('Error: Creating directory of data') 
-  
-# frame 
-currentframe = 0
-
-while(True): 
-      
-    # reading from frame 
-    ret,frame = cam.read() 
-  
-    if ret: 
-        # if video is still left continue creating images 
-        name = './data/frame' + str(currentframe) + '.jpg'
-        print ('Creating...' + name) 
-  
-        # writing the extracted images 
-        cv2.imwrite(name, frame) 
-  
-        # increasing counter so that it will 
-        # show how many frames are created 
-        currentframe += 1
-    else: 
-         break
+# create a folder to store extracted images
+import os
+folder = 'test'  
+os.mkdir(folder)
+# use opencv to convert avi video into images 
+import cv2
+print(cv2.__version__)  
+vidcap = cv2.VideoCapture('video.avi')
+count = 0
+while True:
+    success,image = vidcap.read()
+    if not success:
+        break
+    cv2.imwrite(os.path.join(folder,"frame{:d}.jpg".format(count)), image)     # save frame as JPEG file
+    count += 1
+print("{} images are extracted in {}.".format(count,folder))
