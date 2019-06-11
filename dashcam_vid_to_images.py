@@ -5,7 +5,7 @@ os.mkdir(folder)
 # use opencv to convert avi video into images 
 import cv2
 print(cv2.__version__)  
-vidcap = cv2.VideoCapture('video.avi')
+vidcap = cv2.VideoCapture('video file name')
 count = 0
 while True:
     success,image = vidcap.read()
