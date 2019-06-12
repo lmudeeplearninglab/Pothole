@@ -9,11 +9,7 @@ num_labels = output [0]
 labels = output[1]
 stats = output [2]
 centroids = output [3]
-cv2.CC_STAT_LEFT = output [4]
-cv2.CC_STAT_TOP = output [5]
-cv2.CC_STAT_WIDTH = output [6]
-cv2.CC_STAT_HEIGHT = output [7]
-cv2.CC_STAT_AREA = output [8]
+
 
 #Source:https://stackoverflow.com/questions/35854197/how-to-use-opencvs-connected-components-with-stats-in-python
 
