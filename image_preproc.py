@@ -4,7 +4,8 @@ import numpy as np
 import cv2 
 import image_segmentation as isp
  # defining lengths and heights in preparation for cropping 
-    
+(width, height) = 0,0 
+ 
 def extractRoad(image):
     thresh = 30
     idx = np.logical_and(abs(image[:,:,0]-image[:,:,1])<=thresh, abs(image[:,:,1]-image[:,:,2])<=thresh);
@@ -12,6 +13,8 @@ def extractRoad(image):
 
  
 def cropResizeImage(image, bounds, desired_h, desired_w):
+    width = desired_w
+    height = desired_h
     # taken from image_manipulation.py by Conor Green, LMU EE
  
     # print("* Original image shape is: ")
